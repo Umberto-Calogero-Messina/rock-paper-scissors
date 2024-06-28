@@ -1,0 +1,124 @@
+@use '../mixins/hover.scss' as *;
+.game-items {
+  position: relative;
+  width: 340px;
+  height: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  &--simple {
+    background-image: url(../assets/images/bg-triangle.svg);
+  }
+  &--advanced {
+    background-image: url(../assets/images/bg-pentagon.svg);
+  }
+}
+
+.game-item {
+  --border-color: ;
+  --shadow: ;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  border: 15px solid var(--border-color);
+  box-shadow: 0 5px var(--shadow), inset 0 5px rgba(0, 0, 150, 0.1);
+  background-color: #fff;
+  transition: transform 0.2s;
+  cursor: pointer;
+
+  @include hover {
+    transform: scale(0.9);
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 0 20px 15px var(--border-color);
+      z-index: -1;
+    }
+  }
+
+  &--paper {
+    --border-color: var(--paper);
+    --shadow: var(--paper-shadow);
+    &-simple {
+      top: 100px;
+      left: 0px;
+    }
+    &-advanced {
+      top: 175px;
+      left: 250px;
+    }
+  }
+
+  &--scissors {
+    --border-color: var(--scissors);
+    --shadow: var(--scissors-shadow);
+    &-simple {
+      top: 100px;
+      right: 0;
+    }
+    &-advanced {
+      top: 50px;
+      left: 120px;
+    }
+  }
+
+  &--rock {
+    --border-color: var(--rock);
+    --shadow: var(--rock-shadow);
+    &-simple {
+      top: 285px;
+      left: 120px;
+    }
+    &-advanced {
+      top: 350px;
+      left: 225px;
+    }
+  }
+
+  &--lizard {
+    top: 350px;
+    left: 25px;
+    --border-color: var(--lizard);
+    --shadow: var(--lizard-shadow);
+  }
+
+  &--spock {
+    top: 175px;
+    left: -30px;
+    --border-color: var(--spock);
+    --shadow: var(--spock-shadow);
+  }
+
+  &--result {
+    position: static;
+  }
+
+  &__image {
+    width: 50px;
+    pointer-events: none;
+  }
+}
+
+.game-results {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5rem;
+}
+
+.game-results {
+  text-align: center;
+  padding: 0 5rem;
+}
+
+.hide {
+  display: none;
+}
