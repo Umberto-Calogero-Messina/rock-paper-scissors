@@ -22,21 +22,24 @@ const resetGameElement = document.getElementById('play-again');
 const userPickedElement = document.getElementById('picked-user-image');
 const pcPickedElement = document.getElementById('picked-pc-image');
 const resultShowElement = document.getElementById('game-results');
+const rulesButtonElement = document.getElementById('rules-button');
+const rulesWindowElement = document.getElementById('rules');
 
 let userPoint = 0;
 let pcPoint = 0;
 //let userPlay;
 let pcPlay;
 
-const pcPlaySimpleArray = ['rock', 'paper', 'scissors'];
-const pcPlayadvanceArray = ['rock', 'paper', 'scissors', '', ''];
+const pcPlaySimpleArray = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
 
 console.dir(pcPlaySimpleArray);
 
 const symbolObject = {
-  rock: ['TIE', 'LOSE', 'WIN'],
-  paper: ['WIN', 'TIE', 'LOSE'],
-  scissors: ['LOSE', 'WIN', 'TIE']
+  rock: ['TIE', 'LOSE', 'WIN', 'WIN', 'LOSE'],
+  paper: ['WIN', 'TIE', 'LOSE', 'LOSE', 'WIN'],
+  scissors: ['LOSE', 'WIN', 'TIE', 'WIN', 'LOSE'],
+  lizard: ['LOSE', 'WIN', 'LOSE', 'TIE', 'WIN'],
+  spock: ['LOSE', 'WIN', 'WIN', 'LOSE', 'TIE']
 };
 
 // const userObject = {
@@ -48,7 +51,9 @@ const symbolObject = {
 const imgObject = {
   rock: '../assets/images/icon-rock.svg',
   paper: '../assets/images/icon-paper.svg',
-  scissors: '../assets/images/icon-scissors.svg'
+  scissors: '../assets/images/icon-scissors.svg',
+  lizard: '../assets/images/icon-lizard.svg',
+  spock: '../assets/images/icon-spock.svg'
 };
 
 const checkWinner = event => {
@@ -153,5 +158,14 @@ const HideRankingWindow = () => {
   gameItemElement.classList.remove('hide');
 };
 
+const showRules = () => {
+  rulesWindowElement.classList.add('rules--show');
+};
+const rulesHide = () => {
+  rulesWindowElement.classList.remove('rules--show');
+};
+
 gameItemElement.addEventListener('click', startGame);
 resetGameElement.addEventListener('click', resetGame);
+rulesButtonElement.addEventListener('click', showRules);
+rulesWindowElement.addEventListener('click', rulesHide);
