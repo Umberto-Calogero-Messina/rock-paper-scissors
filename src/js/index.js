@@ -1,4 +1,3 @@
-// El styles lo importamos aquí, ya se carga después al compilar todo
 import '../scss/styles.scss';
 
 /* 
@@ -30,9 +29,14 @@ let pcPoint = 0;
 //let userPlay;
 let pcPlay;
 
-const pcPlaySimpleArray = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+///////ADD CHECK PATCHNAME HERE AND IN STARTGAME - ERROR IN SELECT GAME
+// if (window.location.pathname != 'simple.htm') {
+//   pcPlayArray = ['rock', 'paper', 'scissors'];
+// } else {
+const pcPlayArray = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+// }
 
-console.dir(pcPlaySimpleArray);
+console.dir(window.location.pathname);
 
 const symbolObject = {
   rock: ['TIE', 'LOSE', 'WIN', 'WIN', 'LOSE'],
@@ -42,6 +46,8 @@ const symbolObject = {
   spock: ['LOSE', 'WIN', 'WIN', 'LOSE', 'TIE']
 };
 
+console.log(pcPlayArray.length);
+console.dir(window);
 // const userObject = {
 //   rock: 0,
 //   paper: 1,
@@ -77,6 +83,8 @@ const checkWinner = event => {
   // console.log(pcPlay + 'pc');
   // console.log(symbolObject[event][pcPlay]);
 
+  //else if user > pc = Win userPoint++
+  //else if user < px = Lose pcPoint++
   if (symbolObject[event][pcPlay] === 'TIE') {
     resultElement.textContent = symbolObject[event][pcPlay];
     return;
@@ -84,19 +92,14 @@ const checkWinner = event => {
   if (symbolObject[event][pcPlay] === 'WIN') {
     resultElement.textContent = symbolObject[event][pcPlay];
     userPoint++;
-    return;
   }
 
   if (symbolObject[event][pcPlay] === 'LOSE') {
     resultElement.textContent = symbolObject[event][pcPlay];
     pcPoint++;
-    return;
   }
 
   //console.log(symbolObject[userPlay][pcPlay]);
-
-  //else if user > pc = Win userPoint++
-  //else if user < px = Lose pcPoint++
 };
 
 const updateRanking = () => {
@@ -123,15 +126,15 @@ const generateRandomPcPlay = event => {
   //Add if to check file.index
   //   if ()
   //     else()
-  const randomValue = Math.floor(Math.random() * pcPlaySimpleArray.length);
+  const randomValue = Math.floor(Math.random() * pcPlayArray.length);
 
   pcPlay = randomValue;
-  // console.log(pcPlaySimpleArray[pcPlay]);
+  // console.log(pcPlayArray[pcPlay]);
 
   checkWinner(event.target.dataset.item);
   ShowRankingWindow();
   updateRanking();
-  changeImgElement(event.target.dataset.item, pcPlaySimpleArray[pcPlay]);
+  changeImgElement(event.target.dataset.item, pcPlayArray[pcPlay]);
 };
 
 const startGame = event => {
