@@ -37,11 +37,9 @@ let pcPlayArray = [];
 // } else {
 // }
 
-if (bodySimpleElement) {
-  pcPlayArray = ['rock', 'paper', 'scissors'];
-} else {
-  pcPlayArray = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
-}
+bodySimpleElement
+  ? (pcPlayArray = ['rock', 'paper', 'scissors'])
+  : (pcPlayArray = ['rock', 'paper', 'scissors', 'lizard', 'spock']);
 
 const symbolObject = {
   rock: ['TIE', 'LOSE', 'WIN', 'WIN', 'LOSE'],
