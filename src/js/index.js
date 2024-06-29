@@ -23,20 +23,25 @@ const pcPickedElement = document.getElementById('picked-pc-image');
 const resultShowElement = document.getElementById('game-results');
 const rulesButtonElement = document.getElementById('rules-button');
 const rulesWindowElement = document.getElementById('rules');
+const bodySimpleElement = document.getElementById('body-simple');
 
 let userPoint = 0;
 let pcPoint = 0;
 //let userPlay;
 let pcPlay;
+let pcPlayArray = [];
 
 ///////ADD CHECK PATCHNAME HERE AND IN STARTGAME - ERROR IN SELECT GAME
 // if (window.location.pathname != 'simple.htm') {
 //   pcPlayArray = ['rock', 'paper', 'scissors'];
 // } else {
-const pcPlayArray = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
 // }
 
-console.dir(window.location.pathname);
+if (bodySimpleElement) {
+  pcPlayArray = ['rock', 'paper', 'scissors'];
+} else {
+  pcPlayArray = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+}
 
 const symbolObject = {
   rock: ['TIE', 'LOSE', 'WIN', 'WIN', 'LOSE'],
@@ -46,8 +51,8 @@ const symbolObject = {
   spock: ['LOSE', 'WIN', 'WIN', 'LOSE', 'TIE']
 };
 
-console.log(pcPlayArray.length);
-console.dir(window);
+// console.log(pcPlayArray.length);
+// console.dir(window);
 // const userObject = {
 //   rock: 0,
 //   paper: 1,
@@ -87,14 +92,10 @@ const checkWinner = event => {
   //else if user < px = Lose pcPoint++
   if (symbolObject[event][pcPlay] === 'TIE') {
     resultElement.textContent = symbolObject[event][pcPlay];
-    return;
-  }
-  if (symbolObject[event][pcPlay] === 'WIN') {
+  } else if (symbolObject[event][pcPlay] === 'WIN') {
     resultElement.textContent = symbolObject[event][pcPlay];
     userPoint++;
-  }
-
-  if (symbolObject[event][pcPlay] === 'LOSE') {
+  } else if (symbolObject[event][pcPlay] === 'LOSE') {
     resultElement.textContent = symbolObject[event][pcPlay];
     pcPoint++;
   }
@@ -115,7 +116,7 @@ const changeImgElement = (playerImg, pcImg) => {
   userPickedElement.src = imgObject[playerImg];
   pcPickedElement.src = imgObject[pcImg];
 
-  console.log(pcImg);
+  // console.log(pcImg);
   //console.log(imgObject[userPlay]);
   //console.log(imgObject[pcPlay]);
 };
