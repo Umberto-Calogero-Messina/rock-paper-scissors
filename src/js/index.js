@@ -1,24 +1,13 @@
 import '../scss/styles.scss';
 
-/* 
-    - Localizar los elementos implicados del DOM
-    - Crear los datos del programa necesarios
-
-FLUJO DEL PROGRAMA
-    - Detectar dónde hemos click
-    - Guardar nuestra jugada
-    - Generar una jugada aleatoria para el ordenador y guardarla
-    - Comparar jugadas
-    - Mostrar resultado
-    - Asignar puntos
-*/
-
 const gameItemElement = document.getElementById('game-items');
 const userPointElement = document.getElementById('points-user');
 const PcPointElement = document.getElementById('points-pc');
 const resultElement = document.getElementById('game-result');
 const resetGameElement = document.getElementById('play-again');
 const userPickedElement = document.getElementById('picked-user-image');
+const gameUserResultElement = document.getElementById('result-user');
+const gamePcResultElement = document.getElementById('result-pc');
 const pcPickedElement = document.getElementById('picked-pc-image');
 const resultShowElement = document.getElementById('game-results');
 const rulesButtonElement = document.getElementById('rules-button');
@@ -27,35 +16,46 @@ const bodySimpleElement = document.getElementById('body-simple');
 
 let userPoint = 0;
 let pcPoint = 0;
-//let userPlay;
+let userPlay;
 let pcPlay;
 let pcPlayArray = [];
-
-///////ADD CHECK PATCHNAME HERE AND IN STARTGAME - ERROR IN SELECT GAME
-// if (window.location.pathname != 'simple.htm') {
-//   pcPlayArray = ['rock', 'paper', 'scissors'];
-// } else {
-// }
 
 bodySimpleElement
   ? (pcPlayArray = ['rock', 'paper', 'scissors'])
   : (pcPlayArray = ['rock', 'paper', 'scissors', 'lizard', 'spock']);
 
 const symbolObject = {
-  rock: ['TIE', 'LOSE', 'WIN', 'WIN', 'LOSE'],
-  paper: ['WIN', 'TIE', 'LOSE', 'LOSE', 'WIN'],
-  scissors: ['LOSE', 'WIN', 'TIE', 'WIN', 'LOSE'],
-  lizard: ['LOSE', 'WIN', 'LOSE', 'TIE', 'WIN'],
-  spock: ['LOSE', 'WIN', 'WIN', 'LOSE', 'TIE']
+  rock: {
+    paper: false,
+    scissors: true,
+    lizard: true,
+    spock: false
+  },
+  paper: {
+    rock: true,
+    scissors: false,
+    lizard: false,
+    spock: true
+  },
+  scissors: {
+    rock: false,
+    paper: true,
+    lizard: true,
+    spock: false
+  },
+  lizard: {
+    rock: false,
+    paper: true,
+    scissors: false,
+    spock: true
+  },
+  spock: {
+    rock: false,
+    paper: true,
+    scissors: true,
+    lizard: false
+  }
 };
-
-// console.log(pcPlayArray.length);
-// console.dir(window);
-// const userObject = {
-//   rock: 0,
-//   paper: 1,
-//   scissors: 2
-// };
 
 const imgObject = {
   rock: '../assets/images/icon-rock.svg',
@@ -65,89 +65,52 @@ const imgObject = {
   spock: '../assets/images/icon-spock.svg'
 };
 
-const checkWinner = event => {
-  // If user = Pc = tie
-
-  //console.log('user = ' + userPlay);
-  //console.log('pc = ' + pcPlay);
-  // if (userPlay === pcPlay) {
-  //   resultElement.textContent = 'TIE';
-  //   //console.log('enter');
-  //   return;
-  // }
-
-  // symbolObject -> pasa valor ordenador y me dice si user ha perdido
-
-  //console.log(symbolObject[userPlay][pcPlay] + '---');
-
-  //console.log(symbolObject[userPlay][pcPlay -1]);
-
-  // console.log(event + 'user');
-  // console.log(pcPlay + 'pc');
-  // console.log(symbolObject[event][pcPlay]);
-
-  //else if user > pc = Win userPoint++
-  //else if user < px = Lose pcPoint++
-  if (symbolObject[event][pcPlay] === 'TIE') {
-    resultElement.textContent = symbolObject[event][pcPlay];
-  } else if (symbolObject[event][pcPlay] === 'WIN') {
-    resultElement.textContent = symbolObject[event][pcPlay];
+const checkWinner = () => {
+  if (userPlay === pcPlay) {
+    resultElement.textContent = 'TIE';
+    return;
+  }
+  if (symbolObject[userPlay][pcPlay]) {
+    resultElement.textContent = 'WIN';
     userPoint++;
-  } else if (symbolObject[event][pcPlay] === 'LOSE') {
-    resultElement.textContent = symbolObject[event][pcPlay];
+  } else {
+    resultElement.textContent = 'LOSE';
     pcPoint++;
   }
-
-  //console.log(symbolObject[userPlay][pcPlay]);
+  updateRanking();
 };
 
 const updateRanking = () => {
-  //Update ranking user & pc
   userPointElement.textContent = userPoint;
   PcPointElement.textContent = pcPoint;
 };
 
-const changeImgElement = (playerImg, pcImg) => {
-  //console.dir(userPickedElement);
-  //.src
-  //Change Img for both --> Dont work src patch
-  userPickedElement.src = imgObject[playerImg];
-  pcPickedElement.src = imgObject[pcImg];
-
-  // console.log(pcImg);
-  //console.log(imgObject[userPlay]);
-  //console.log(imgObject[pcPlay]);
+const changeImgElement = () => {
+  userPickedElement.src = imgObject[userPlay];
+  pcPickedElement.src = imgObject[pcPlay];
+  gameUserResultElement.classList.add('game-item--' + userPlay);
+  gamePcResultElement.classList.add('game-item--' + pcPlay);
 };
 
 const generateRandomPcPlay = event => {
-  // Add lenth de algo para añadir luego más jugadas
-
-  //Add if to check file.index
-  //   if ()
-  //     else()
   const randomValue = Math.floor(Math.random() * pcPlayArray.length);
+  pcPlay = pcPlayArray[randomValue];
 
-  pcPlay = randomValue;
-  // console.log(pcPlayArray[pcPlay]);
-
-  checkWinner(event.target.dataset.item);
+  checkWinner();
   ShowRankingWindow();
-  updateRanking();
-  changeImgElement(event.target.dataset.item, pcPlayArray[pcPlay]);
+  changeImgElement();
 };
 
 const startGame = event => {
   if (!event.target.classList.contains('game-item')) return;
-  //console.log(event.target.dataset.item);
-
-  //userPlay = userObject[event.target.dataset.item];
-  //console.log(userObject[userPlay]);
+  userPlay = event.target.dataset.item;
   generateRandomPcPlay(event);
 };
 
 const resetGame = () => {
-  //console.log('ResetGame');
   resultElement.textContent = '';
+  gameUserResultElement.classList.remove('game-item--' + userPlay);
+  gamePcResultElement.classList.remove('game-item--' + pcPlay);
   HideRankingWindow();
 };
 
